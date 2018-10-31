@@ -609,8 +609,6 @@ public override object FunctionMain (  object __obj__ )
 
 public override void LogosSplusInitialize()
 {
-    SocketInfo __socketinfo__ = new SocketInfo( 1, this );
-    InitialParametersClass.ResolveHostName = __socketinfo__.ResolveHostName;
     _SplusNVRAM = new SplusNVRAM( this );
     _SplusNVRAM.CMD_QUE  = new CrestronString[ 151 ];
     for( uint i = 0; i < 151; i++ )
