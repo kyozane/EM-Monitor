@@ -2176,7 +2176,7 @@ object FROM_MODULES_OnChange_3 ( Object __EventInfo__ )
                                 if ( Functions.TestForTrue  ( ( Functions.BoolToInt ( (Functions.TestForTrue ( Functions.BoolToInt ( RESPONSEMODULEMSGID > 0 ) ) && Functions.TestForTrue ( Functions.BoolToInt ( RESPONSEMODULEMSGID <= Functions.GetNumArrayCols( MODULECOMM ) ) )) ))  ) ) 
                                     { 
                                     __context__.SourceCodeLine = 1461;
-                                    CreateWait ( "__SPLS_TMPVAR__WAITLABEL_1__" , 20 , __SPLS_TMPVAR__WAITLABEL_1___Callback ) ;
+                                    CreateWait ( "__SPLS_TMPVAR__WAITLABEL_2__" , 20 , __SPLS_TMPVAR__WAITLABEL_2___Callback ) ;
                                     } 
                                 
                                 } 
@@ -2243,7 +2243,7 @@ object FROM_MODULES_OnChange_3 ( Object __EventInfo__ )
     
 }
 
-public void __SPLS_TMPVAR__WAITLABEL_1___CallbackFn( object stateInfo )
+public void __SPLS_TMPVAR__WAITLABEL_2___CallbackFn( object stateInfo )
 {
 
     try
@@ -2366,7 +2366,7 @@ public override void LogosSplusInitialize()
     HEARTBEAT_Callback = new WaitFunction( HEARTBEAT_CallbackFn );
     REGISTRATIONWAIT_Callback = new WaitFunction( REGISTRATIONWAIT_CallbackFn );
     STARTHEARTBEATPROCESS_Callback = new WaitFunction( STARTHEARTBEATPROCESS_CallbackFn );
-    __SPLS_TMPVAR__WAITLABEL_1___Callback = new WaitFunction( __SPLS_TMPVAR__WAITLABEL_1___CallbackFn );
+    __SPLS_TMPVAR__WAITLABEL_2___Callback = new WaitFunction( __SPLS_TMPVAR__WAITLABEL_2___CallbackFn );
     
     CONNECT.OnDigitalPush.Add( new InputChangeHandlerWrapper( CONNECT_OnPush_0, false ) );
     DISCONNECT.OnDigitalPush.Add( new InputChangeHandlerWrapper( DISCONNECT_OnPush_1, false ) );
@@ -2392,7 +2392,7 @@ private WaitFunction QUEUEFALSERESPONSE_Callback;
 private WaitFunction HEARTBEAT_Callback;
 private WaitFunction REGISTRATIONWAIT_Callback;
 private WaitFunction STARTHEARTBEATPROCESS_Callback;
-private WaitFunction __SPLS_TMPVAR__WAITLABEL_1___Callback;
+private WaitFunction __SPLS_TMPVAR__WAITLABEL_2___Callback;
 
 
 const uint CONNECT__DigitalInput__ = 0;
