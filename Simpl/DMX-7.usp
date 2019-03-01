@@ -1,0 +1,609 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+  (Fill in comments below)
+*******************************************************************************************/
+/*
+Dealer Name: EM+/EPFL
+System Name: EM+ LAB
+System Number:
+Programmer: P. Chouard
+Comments:
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+  (Uncomment and declare compiler directives as needed)
+*******************************************************************************************/
+// #ENABLE_DYNAMIC
+// #SYMBOL_NAME ""
+// #HINT ""
+// #DEFINE_CONSTANT
+#CATEGORY "6" // Lighting
+// #PRINT_TO_TRACE
+// #DIGITAL_EXPAND 
+// #ANALOG_SERIAL_EXPAND 
+// #OUTPUT_SHIFT 
+// #HELP_PDF_FILE ""
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+// #ENCODING_ASCII
+// #ENCODING_UTF16
+// #ENCODING_INHERIT_FROM_PARENT
+// #ENCODING_INHERIT_FROM_PROGRAM
+/*
+#HELP_BEGIN
+   (add additional lines of help lines)
+#HELP_END
+*/
+
+/*******************************************************************************************
+  Include Libraries
+  (Uncomment and include additional libraries as needed)
+*******************************************************************************************/
+// #CRESTRON_LIBRARY ""
+// #USER_LIBRARY ""
+
+/*******************************************************************************************
+  DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
+  (Uncomment and declare inputs and outputs as needed)
+*******************************************************************************************/
+
+ANALOG_INPUT Ctrl_Red, Ctrl_Green, Ctrl_Blue, Ctrl_White, Ctrl_Dim, Ctrl_Zoom;
+
+DIGITAL_INPUT _SKIP_, SelLight[7], _SKIP_ , RecallPreset[7], _SKIP_, StorePreset[7], _SKIP_; // STRING_INPUT
+
+// BUFFER_INPUT 
+
+// DIGITAL_OUTPUT 
+
+ANALOG_OUTPUT 	_SKIP_, 
+				FB_Red, FB_Green, FB_Blue, FB_White, FB_Dim, FB_Zoom, _SKIP_, 
+				Red1, Green1, Blue1, White1, Dim1, Zoom1, _SKIP_,
+				Red2, Green2, Blue2, White2, Dim2, Zoom2, _SKIP_,
+				Red3, Green3, Blue3, White3, Dim3, Zoom3, _SKIP_,
+				Red4, Green4, Blue4, White4, Dim4, Zoom4, _SKIP_,
+				Red5, Green5, Blue5, White5, Dim5, Zoom5, _SKIP_,
+				Red6, Green6, Blue6, White6, Dim6, Zoom6, _SKIP_,
+				Red7, Green7, Blue7, White7, Dim7, Zoom7; 
+
+// STRING_OUTPUT 
+
+/*******************************************************************************************
+  SOCKETS
+  (Uncomment and define socket definitions as needed)
+*******************************************************************************************/
+// TCP_CLIENT
+// TCP_SERVER
+// UDP_SOCKET
+
+/*******************************************************************************************
+  Parameters
+  (Uncomment and declare parameters as needed)
+*******************************************************************************************/
+// INTEGER_PARAMETER
+// SIGNED_INTEGER_PARAMETER
+// LONG_INTEGER_PARAMETER
+// SIGNED_LONG_INTEGER_PARAMETER
+// STRING_PARAMETER
+
+/*******************************************************************************************
+  Parameter Properties
+  (Uncomment and declare parameter properties as needed)
+*******************************************************************************************/
+/*
+#BEGIN_PARAMETER_PROPERTIES parameter_variable, parameter_variable, ...
+   // propValidUnits = // unitString or unitDecimal|unitHex|unitPercent|unitCharacter|unitTime|unitTicks;
+   // propDefaultUnit = // unitString, unitDecimal, unitHex, unitPercent, unitCharacter, unitTime or unitTicks;
+   // propBounds = lower_bound , upper_bound;
+   // propDefaultValue = ;  // or, propDefaultValue = "";
+   // propList = // { "value" , "label" } , { "value" , "label" } , ... ;
+   // propShortDescription = "status_bar_hint_text";
+   // #BEGIN_PROP_FULL_DESCRIPTION  line_1...  line_2...  line_n  #END_PROP_FULL_DESCRIPTION
+   // #BEGIN_PROP_NOTES line_1...  line_2...  line_n  #END_PROP_NOTES
+#END_PARAMETER_PROPERTIES
+*/
+
+/*******************************************************************************************
+  Structure Definitions
+  (Uncomment and define structure definitions as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: struct.myString = "";
+*******************************************************************************************/
+/*
+STRUCTURE MyStruct1
+{
+};
+
+MyStruct1 struct;
+*/
+
+/*******************************************************************************************
+  Global Variables
+  (Uncomment and declare global variables as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: myString = "";
+*******************************************************************************************/
+INTEGER LightRed[7], LightGreen[7], LightBlue[7], LightWhite[7], LightDim[7], LightZoom[7]; // Store current values of lights Param
+INTEGER Preset[7][42];
+
+INTEGER iLightSelected;	// The light selected
+
+// LONG_INTEGER
+// SIGNED_INTEGER
+// SIGNED_LONG_INTEGER
+// STRING
+
+/*******************************************************************************************
+  Functions
+  (Add any additional functions here)
+  Note:  Functions must be physically placed before the location in
+         the code that calls them.
+*******************************************************************************************/
+//--- Update DMX Outputs and memorize values ----------------------------------
+Function UpdateDMX()
+{
+	switch (iLightSelected)
+	{	
+		case (0):
+		{
+			Red1 	= Ctrl_Red;
+			Green1	= Ctrl_Green;
+			Blue1 	= Ctrl_Blue;
+			White1 	= Ctrl_White;
+			Dim1 	= Ctrl_Dim;
+			Zoom1	= Ctrl_Zoom;
+		}
+
+		case (1):
+		{
+			Red2 	= Ctrl_Red;
+			Green2	= Ctrl_Green;
+			Blue2 	= Ctrl_Blue;
+			White2 	= Ctrl_White;
+			Dim2 	= Ctrl_Dim;
+			Zoom2	= Ctrl_Zoom;
+		}
+
+		case (2):
+		{
+			Red3 	= Ctrl_Red;
+			Green3	= Ctrl_Green;
+			Blue3 	= Ctrl_Blue;
+			White3 	= Ctrl_White;
+			Dim3 	= Ctrl_Dim;
+			Zoom3	= Ctrl_Zoom;
+		}
+
+		case (3):
+		{
+			Red4 	= Ctrl_Red;
+			Green4	= Ctrl_Green;
+			Blue4 	= Ctrl_Blue;
+			White4 	= Ctrl_White;
+			Dim4 	= Ctrl_Dim;
+			Zoom4	= Ctrl_Zoom;
+		}
+
+		case (4):
+		{
+			Red5 	= Ctrl_Red;
+			Green5	= Ctrl_Green;
+			Blue5 	= Ctrl_Blue;
+			White5 	= Ctrl_White;
+			Dim5 	= Ctrl_Dim;
+			Zoom5	= Ctrl_Zoom;
+		}
+
+		case (5):
+		{
+			Red6 	= Ctrl_Red;
+			Green6	= Ctrl_Green;
+			Blue6 	= Ctrl_Blue;
+			White6 	= Ctrl_White;
+			Dim6 	= Ctrl_Dim;
+			Zoom6	= Ctrl_Zoom;
+		}
+
+		case (6):
+		{
+			Red7 	= Ctrl_Red;
+			Green7	= Ctrl_Green;
+			Blue7 	= Ctrl_Blue;
+			White7 	= Ctrl_White;
+			Dim7 	= Ctrl_Dim;
+			Zoom7	= Ctrl_Zoom;
+		}
+	}	
+}
+
+//-----------------------------------------------------------------------------
+Function UpdateFB()
+{
+	switch (iLightSelected)
+	{	
+		case (0):
+		{
+			FB_Red = Red1;
+			FB_Green = Green1;
+			FB_Blue = Blue1;
+			FB_White = White1;
+			FB_Dim = Dim1;
+			FB_Zoom = Zoom1;
+		}
+
+		case (1):
+		{
+			FB_Red = Red2;
+			FB_Green = Green2;
+			FB_Blue = Blue2;
+			FB_White = White2;
+			FB_Dim = Dim2;
+			FB_Zoom = Zoom2;
+		}
+
+		case (2):
+		{
+			FB_Red = Red3;
+			FB_Green = Green3;
+			FB_Blue = Blue3;
+			FB_White = White3;
+			FB_Dim = Dim3;
+			FB_Zoom = Zoom3;
+		}
+
+		case (3):
+		{
+			FB_Red = Red4;
+			FB_Green = Green4;
+			FB_Blue = Blue4;
+			FB_White = White4;
+			FB_Dim = Dim4;
+			FB_Zoom = Zoom4;
+		}
+
+		case (4):
+		{
+			FB_Red = Red5;
+			FB_Green = Green5;
+			FB_Blue = Blue5;
+			FB_White = White5;
+			FB_Dim = Dim5;
+			FB_Zoom = Zoom5;
+		}
+
+		case (5):
+		{
+			FB_Red = Red6;
+			FB_Green = Green6;
+			FB_Blue = Blue6;
+			FB_White = White6;
+			FB_Dim = Dim6;
+			FB_Zoom = Zoom6;		
+		}
+
+		case (6):
+		{
+			FB_Red = Red7;
+			FB_Green = Green7;
+			FB_Blue = Blue7;
+			FB_White = White7;
+			FB_Dim = Dim7;
+			FB_Zoom = Zoom7;
+		}
+	}	
+}
+
+/*
+Function MyFunction1()
+{
+    // TODO:  Add local variable declarations here
+
+    // TODO:  Add code here
+}
+*/
+
+/*
+Integer_Function MyIntFunction1()
+{
+    // TODO:  Add local variable declarations here
+
+    // TODO:  Add code here
+
+    Return (0);
+}
+*/
+
+/*
+String_Function MyStrFunction1()
+{
+    // TODO:  Add local variable declarations here
+
+    // TODO:  Add code here
+
+    Return ("");
+}
+*/
+
+/*******************************************************************************************
+  Event Handlers
+  (Uncomment and declare additional event handlers as needed)
+*******************************************************************************************/
+/*
+PUSH input
+{
+    // TODO:  Add code here
+}
+*/
+
+/*
+RELEASE input
+{
+    // TODO:  Add code here
+}
+*/
+
+/*
+CHANGE input
+{
+    // TODO:  Add code here
+}
+*/
+
+//--- Change ------------------------------------------------------------------
+CHANGE Ctrl_Red
+{
+	FB_Red = Ctrl_Red;
+	LightRed[iLightSelected]	= Ctrl_Red;
+
+	UpdateDMX(); 	
+}
+
+//--- Change ------------------------------------------------------------------
+CHANGE Ctrl_Green
+{
+	FB_Green = Ctrl_Green;
+	LightGreen[iLightSelected]	= Ctrl_Green;
+
+	UpdateDMX(); 	
+}
+
+//--- Change ------------------------------------------------------------------
+CHANGE Ctrl_Blue
+{
+	FB_Blue = Ctrl_Blue;
+	LightBlue[iLightSelected]	= Ctrl_Blue;
+
+	UpdateDMX(); 	
+}
+
+//--- Change ------------------------------------------------------------------
+CHANGE Ctrl_White
+{
+	FB_White = Ctrl_White;
+	LightWhite[iLightSelected]	= Ctrl_White;
+
+	UpdateDMX(); 	
+}
+
+//--- Change ------------------------------------------------------------------
+CHANGE Ctrl_Dim
+{
+	FB_Dim = Ctrl_Dim;
+	LightDim[iLightSelected]	= Ctrl_Dim;
+
+	UpdateDMX(); 	
+}
+
+//--- Change ------------------------------------------------------------------
+CHANGE Ctrl_Zoom
+{
+	LightZoom[iLightSelected]	= Ctrl_Zoom;
+	FB_Zoom = Ctrl_Zoom;
+
+	UpdateDMX(); 	
+}
+
+//=============================================================================
+CHANGE SelLight
+{
+	integer i;
+
+	for (i=0 to 6)
+	{
+		if (SelLight[i+1] = 1)
+		{ 
+			iLightSelected = i;
+            
+			FB_Red 	 = LightRed[i];
+			FB_Green = LightGreen[i];
+			FB_Blue  = LightBlue[i];
+			FB_White = LightWhite[i];
+			FB_Dim 	 = LightDim[i];
+			FB_Zoom  = LightZoom[i];
+			break;
+		}
+	}
+}
+
+//=============================================================================
+Change RecallPreset
+{
+	integer i;
+
+	for (i=1 to 7)
+	{
+		if (RecallPreset[i] = 1)
+		{
+			Red1 	= Preset[i-1][0];
+			Green1	= Preset[i-1][1];
+			Blue1 	= Preset[i-1][2];
+			White1 	= Preset[i-1][3];
+			Dim1 	= Preset[i-1][4];
+			Zoom1	= Preset[i-1][5];
+
+			Red2 	= Preset[i-1][6];
+			Green2	= Preset[i-1][7];
+			Blue2 	= Preset[i-1][8];
+			White2 	= Preset[i-1][9];
+			Dim2 	= Preset[i-1][10];
+			Zoom2	= Preset[i-1][11];
+
+			Red3 	= Preset[i-1][12];
+			Green3	= Preset[i-1][13];
+			Blue3 	= Preset[i-1][14];
+			White3 	= Preset[i-1][15];
+			Dim3 	= Preset[i-1][16];
+			Zoom3	= Preset[i-1][17];
+
+			Red4 	= Preset[i-1][18];
+			Green4	= Preset[i-1][19];
+			Blue4 	= Preset[i-1][20];
+			White4 	= Preset[i-1][21];
+			Dim4 	= Preset[i-1][22];
+			Zoom4	= Preset[i-1][23];
+                                 
+			Red5 	= Preset[i-1][24];
+			Green5	= Preset[i-1][25];
+			Blue5 	= Preset[i-1][26];
+			White5 	= Preset[i-1][27];
+			Dim5 	= Preset[i-1][28];
+			Zoom5	= Preset[i-1][29];
+
+			Red6 	= Preset[i-1][30];
+			Green6	= Preset[i-1][31];
+			Blue6 	= Preset[i-1][32];
+			White6 	= Preset[i-1][33];
+			Dim6 	= Preset[i-1][34];
+			Zoom6	= Preset[i-1][35];
+
+			Red7 	= Preset[i-1][36];
+			Green7	= Preset[i-1][37];
+			Blue7 	= Preset[i-1][38];
+			White7 	= Preset[i-1][39];
+			Dim7 	= Preset[i-1][40];
+			Zoom7	= Preset[i-1][41];
+
+			UpdateFB();
+        }
+	}
+}                                                
+ 
+//-----------------------------------------------------------------------------
+Change StorePreset
+{
+	integer i;
+
+	for (i=1 to 7)
+	{
+		if (StorePreset[i] = 1)
+		{
+			Preset[i-1][0]=Red1;
+			Preset[i-1][1]=Green1;
+			Preset[i-1][2]=Blue1;
+			Preset[i-1][3]=White1;
+			Preset[i-1][4]=Dim1;
+			Preset[i-1][5]=Zoom1;
+                        
+			Preset[i-1][6]=Red2;
+			Preset[i-1][7]=Green2;
+			Preset[i-1][8]=Blue2;
+			Preset[i-1][9]=White2;
+			Preset[i-1][10]=Dim2;
+			Preset[i-1][11]=Zoom2;
+                        
+			Preset[i-1][12]=Red3;
+			Preset[i-1][13]=Green3;
+			Preset[i-1][14]=Blue3;
+			Preset[i-1][15]=White3;
+			Preset[i-1][16]=Dim3;
+			Preset[i-1][17]=Zoom3;
+                        
+			Preset[i-1][18]=Red4;
+			Preset[i-1][19]=Green4;
+			Preset[i-1][20]=Blue4;
+			Preset[i-1][21]=White4;
+			Preset[i-1][22]=Dim4;
+			Preset[i-1][23]=Zoom4;
+                                  
+			Preset[i-1][24]=Red5;
+			Preset[i-1][25]=Green5;
+			Preset[i-1][26]=Blue5;
+			Preset[i-1][27]=White5;
+			Preset[i-1][28]=Dim5;
+			Preset[i-1][29]=Zoom5;
+                        
+			Preset[i-1][30]=Red6;
+			Preset[i-1][31]=Green6;
+			Preset[i-1][32]=Blue6;
+			Preset[i-1][33]=White6;
+			Preset[i-1][34]=Dim6;
+			Preset[i-1][35]=Zoom6;
+                        
+			Preset[i-1][36]=Red7;
+			Preset[i-1][37]=Green7;
+			Preset[i-1][38]=Blue7;
+			Preset[i-1][39]=White7;
+			Preset[i-1][40]=Dim7;
+			Preset[i-1][41]=Zoom7;
+        }
+	}
+}                                                
+
+
+/*
+EVENT
+{
+    // TODO:  Add code here
+}
+*/
+
+/*
+SOCKETCONNECT
+{
+    // TODO:  Add code here
+}
+*/
+
+/*
+SOCKETDISCONNECT
+{
+    // TODO:  Add code here
+}
+*/
+
+/*
+SOCKETRECEIVE
+{
+    // TODO:  Add code here
+}
+*/
+
+/*
+SOCKETSTATUS
+{
+    // TODO:  Add code here
+}
+*/
+
+/*******************************************************************************************
+  Main()
+  Uncomment and place one-time startup code here
+  (This code will get called when the system starts up)
+*******************************************************************************************/
+Function Main()
+{
+    // TODO:  Add code here
+    // Initialize declared global and local variables/arrays as needed.
+
+    // WaitForInitializationComplete();
+    // If you are reading any Input or Output variables, uncomment
+    //   the WaitForInitializationComplete statement above and read
+    //   them afterwards.  Input/Output variables will not have
+    //   their correct values set until after the logic processor
+    //   runs and propagates the values to them
+
+	iLightSelected = 0;
+
+}
+
